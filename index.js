@@ -71,51 +71,46 @@ const addActor = (movies, actor) => {
  Bonus points if the names are alphabetically sorted :)
 -----------------------------------------------------------------------------------------------------------------*/
 const listActors = (movies) => {
-    let list
-    if (document.body.contains(document.getElementsByTagName("ul")[0])) {
-        const oldList = document.getElementsByTagName("ul")[0]
-        list = document.createElement("ul");
+  let list;
+  if (document.body.contains(document.getElementsByTagName("ul")[0])) {
+    const oldList = document.getElementsByTagName("ul")[0];
+    list = document.createElement("ul");
 
-        oldList.parentNode.replaceChild(list, oldList)
-    } else {
-        list = createElement("ul")
-    }
-    
-    let actorsArr = [];
-    for (const [key, val] of Object.entries(movies)) {
-        actorsArr = [...new Set([...actorsArr, val.actors].flat())].sort();
-    }
-    actorsArr.map((actor) => {
-        let li = document.createElement("li");
-        li.innerText = actor;
-        list.appendChild(li);
-    });
-    
-    document.body.appendChild(list);
+    oldList.parentNode.replaceChild(list, oldList);
+  } else {
+    list = createElement("ul");
+  }
+
+  let actorsArr = [];
+  for (const [key, val] of Object.entries(movies)) {
+    actorsArr = [...new Set([...actorsArr, val.actors].flat())].sort();
+  }
+  actorsArr.map((actor) => {
+    let li = document.createElement("li");
+    li.innerText = actor;
+    list.appendChild(li);
+  });
+
+  document.body.appendChild(list);
 };
-
-listActors(movies);
 /*----------------------------------------------------------------------------------------------------------------
 5) Create a procedure that retrieves the data from the REST API endpoint hosted here: https://jsonplaceholder.typicode.com/posts.
 The procedure should then log the id of the first post with a userId of 7 and a title that begins with the letter "e"
 (or undefined if it does not exist). It should also log any potential retrieval errors using `console.error`.
 -----------------------------------------------------------------------------------------------------------------*/
-    const fetchPosts = async () => {
-        const res = await fetch("https://jsonplaceholder.typicode.com/posts");
-        if(!res.ok) {
-            console.error(`Error status ${res.status}`)
-            return
-        }
-        const posts = await res.json()
+const fetchPosts = async () => {
+  const res = await fetch("https://jsonplaceholder.typicode.com/posts");
+  if (!res.ok) {
+    console.error(`Error status ${res.status}`);
+    return;
+  }
+  const posts = await res.json();
 
-        let filteredPosts = posts.filter(post => {
-            return post.userId === 7 && post.title.charAt(0) === "e"
-        })
+  let filteredPosts = posts.filter((post) => {
+    return post.userId === 7 && post.title.charAt(0) === "e";
+  });
 
-        let result = filteredPosts.length > 0 ? filteredPosts[0].id : undefined
+  let result = filteredPosts.length > 0 ? filteredPosts[0].id : undefined;
 
-        console.log(result)
-    }
-
-    fetchPosts()
-
+  console.log(result);
+};
